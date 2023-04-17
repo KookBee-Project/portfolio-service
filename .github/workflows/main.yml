@@ -24,7 +24,7 @@ jobs:
         run: ./gradlew build
 
       - name: 도커 이미지 빌드 # (2)
-        run: docker build -t sunghun/kookbee-portfolio-service .
+        run: docker build -t parksunghun/kookbee-portfolio-service .
 
       - name: Docker Hub 로그인 # (3)
         uses: docker/login-action@v2
@@ -33,7 +33,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Docker Hub 퍼블리시 # (4)
-        run: docker push sunghun/kookbee-portfolio-service
+        run: docker push parksunghun/kookbee-portfolio-service
 
 
       - name: GCP 인스턴스 접속 및 애플리케이션 실행 # (5)
@@ -47,5 +47,5 @@ jobs:
             sudo su
             sudo docker stop $(sudo docker ps -a | grep kookbee-portfolio-service | awk '{print $1}') 
             sudo docker rm $(sudo docker ps -a | grep kookbee-portfolio-service | awk '{print $1}') 
-            sudo docker pull sunghun/kookbee-portfolio-service
-            sudo docker run -d -p 9200:9200 --name kookbee-portfolio-service sunghun/kookbee-portfolio-service
+            sudo docker pull parksunghun/kookbee-portfolio-service
+            sudo docker run -d -p 9200:9200 --name kookbee-portfolio-service parksunghun/kookbee-portfolio-service
