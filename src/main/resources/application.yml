@@ -20,7 +20,7 @@ spring:
       host: 34.64.173.178
       port: 6379
   application:
-    name: class-service
+    name: portfolio-service
 
 eureka:
   client:
