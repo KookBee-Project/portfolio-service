@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    config:
+      uri: http://34.64.69.238:8888/
+      name: jwt
+      enabled: true
