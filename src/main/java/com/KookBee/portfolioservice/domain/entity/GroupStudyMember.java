@@ -1,5 +1,6 @@
 package com.KookBee.portfolioservice.domain.entity;
 
+import com.KookBee.portfolioservice.domain.dto.GroupStudyMemberPostDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,4 +18,9 @@ public class GroupStudyMember {
     @JoinColumn(name = "group_study_id")
     private GroupStudy groupStudy;
     private Long userId;
+
+    public GroupStudyMember(GroupStudyMemberPostDTO dto) {
+        this.groupStudy = dto.getGroupStudy();
+        this.userId = dto.getUserId();
+    }
 }
