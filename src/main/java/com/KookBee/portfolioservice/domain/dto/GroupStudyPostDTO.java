@@ -1,7 +1,7 @@
 package com.KookBee.portfolioservice.domain.dto;
 
 import com.KookBee.portfolioservice.domain.enums.EStudyStatus;
-import com.KookBee.portfolioservice.domain.request.PortFolioStudyRegistRequest;
+import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegistRequest;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ public class GroupStudyPostDTO {
     private EStudyStatus groupStudyStatus;
     private LocalDate groupStudyOpenDate;
 
-    public GroupStudyPostDTO(PortFolioStudyRegistRequest request, Long userId) {
+    public GroupStudyPostDTO(PortfolioStudyRegistRequest request, Long userId) {
         this.groupStudyName = request.getStudyName();
         this.groupStudyLeader = userId;
         this.groupStudyPurpose = request.getStudyPerpose();

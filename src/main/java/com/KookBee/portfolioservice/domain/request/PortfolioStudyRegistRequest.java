@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
-public class PortFolioStudyRegistRequest {
+public class PortfolioStudyRegistRequest {
     private String studyName;
     private String studyPerpose;
     private List<Long> userIdList;
