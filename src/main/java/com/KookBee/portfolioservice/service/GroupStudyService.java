@@ -44,13 +44,14 @@ public class GroupStudyService {
 
     public Page<PortfolioStudyResponse> findStudyList(Pageable pageable){
         EStudyStatus status = EStudyStatus.PROCEEDING;
-        List<GroupStudy> studies = groupStudyRepository.findProceedingGroupStudies(status);
+        Page<GroupStudy> studies = groupStudyRepository.findProceedingGroupStudies(status, pageable);
         List<PortfolioStudyResponse> responsList = studies.stream().map(el->{
             UserDTO userById = userServiceClient.getUserById(el.getGroupStudyLeader());// leaderName
             Integer memberCounts = groupStudyMemberRepository.memberCounts(el.getId());// memberCounts
             return new PortfolioStudyResponse(el, userById, memberCounts);// GroupStudy
         }).toList();
-        int totalSize = responsList.size();
+//        int totalSize = groupStudyRepository.findAll().size();
+        Integer totalSize = groupStudyRepository.groupStudyCounts(status);
         return new PageImpl<>(responsList,pageable,totalSize);
     }
 }

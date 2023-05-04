@@ -14,5 +14,8 @@ public interface GroupStudyRepository extends JpaRepository<GroupStudy,Long> {
     @Query("select gs from GroupStudy gs " +
             "where gs.groupStudyStatus = :eStudyStatus " +
             "order by gs.groupStudyOpenDate desc")
-    List<GroupStudy> findProceedingGroupStudies(@Param("eStudyStatus") EStudyStatus eStudyStatus);
+    Page<GroupStudy> findProceedingGroupStudies(@Param("eStudyStatus") EStudyStatus eStudyStatus, Pageable pageable);
+
+    @Query("select count(gs) from GroupStudy gs where gs.groupStudyStatus = :eStudyStatus")
+    Integer groupStudyCounts(@Param("eStudyStatus") EStudyStatus eStudyStatus);
 }
