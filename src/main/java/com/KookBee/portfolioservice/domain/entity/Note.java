@@ -1,6 +1,7 @@
 package com.KookBee.portfolioservice.domain.entity;
 
 import com.KookBee.portfolioservice.domain.request.NoteCreateRequest;
+import com.KookBee.portfolioservice.domain.request.NoteEditRequest;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -32,6 +33,13 @@ public class Note {
         this.createAt = request.getCreateAt();
         this.UUID = request.getUUID();
         this.curriculumId = request.getCurriculumId();
+    }
+    public Note updateNote(NoteEditRequest request) {
+        this.id = request.getId();
+        this.title = request.getTitle();
+        this.content = request.getContent();
+        this.UUID = request.getUUID();
+        return this;
     }
 
 }
