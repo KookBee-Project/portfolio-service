@@ -11,7 +11,7 @@ public interface ClassServiceClient {
     @GetMapping("/class/curriculum/curriculumList")
     List<Curriculum> getCurriculumByUserId();
     @GetMapping("/studentBootcamp/{id}")
-    StudentBootcamp findByStudentId (@PathVariable Long id);
+    StudentBootcamp findByStudentId (@PathVariable("id") Long id);
     @GetMapping("/class/curriculum/{curriculumId}")
-    Curriculum getCurriculumByCurriculumId(@PathVariable Long curriculumId);
+    Curriculum getCurriculumByCurriculumId(@PathVariable("curriculumId") Long curriculumId);
 }

@@ -1,7 +1,6 @@
 package com.KookBee.portfolioservice.security;
-
-import com.KookBee.classservice.domain.entity.RefreshToken;
-import com.KookBee.classservice.repository.RefreshTokenRepository;
+import com.KookBee.portfolioservice.domain.entity.RefreshToken;
+import com.KookBee.portfolioservice.repository.RefreshTokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

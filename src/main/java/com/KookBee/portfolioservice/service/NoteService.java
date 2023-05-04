@@ -7,12 +7,9 @@ import com.KookBee.portfolioservice.domain.entity.Note;
 import com.KookBee.portfolioservice.domain.request.NoteCreateRequest;
 import com.KookBee.portfolioservice.domain.request.NoteEditRequest;
 import com.KookBee.portfolioservice.domain.response.CurriculumListResponse;
-import com.KookBee.portfolioservice.domain.response.NoteDetailResponse;
 import com.KookBee.portfolioservice.domain.response.NoteListResponse;
 import com.KookBee.portfolioservice.repository.NoteRepository;
 import com.KookBee.portfolioservice.security.JwtService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +23,8 @@ public class NoteService {
     private final ClassServiceClient classServiceClient;
     private final JwtService jwtService;
     public Note createNote(NoteCreateRequest request) {
-        Note newNote = new Note(request);
+        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
+        Note newNote = new Note().createNote(request,userId);
         return noteRepository.save(newNote);
     }
     public List<CurriculumListResponse> getCurriculumList() {

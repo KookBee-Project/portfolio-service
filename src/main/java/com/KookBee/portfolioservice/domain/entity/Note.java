@@ -21,18 +21,18 @@ public class Note {
     private String title;
     private String content;
     private Long writerId;
-    private LocalDateTime createAt;
+    private LocalDateTime createAt = LocalDateTime.now();
     private String UUID;
     private Long curriculumId;
 
 
-    public Note(NoteCreateRequest request){
+    public Note createNote(NoteCreateRequest request, Long id){
         this.title = request.getTitle();
         this.content = request.getContent();
-        this.writerId = request.getWriterId();
-        this.createAt = request.getCreateAt();
+        this.writerId = id;
         this.UUID = request.getUUID();
         this.curriculumId = request.getCurriculumId();
+        return this;
     }
     public Note updateNote(NoteEditRequest request) {
         this.id = request.getId();
