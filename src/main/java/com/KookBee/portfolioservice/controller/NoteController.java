@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/note")
+@RequestMapping("/portfolio/note")
 public class NoteController {
     private final NoteService noteService;
 

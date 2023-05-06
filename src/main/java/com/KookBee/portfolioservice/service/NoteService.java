@@ -28,7 +28,8 @@ public class NoteService {
         return noteRepository.save(newNote);
     }
     public List<CurriculumListResponse> getCurriculumList() {
-        List<Curriculum> curriculumByUserId = classServiceClient.getCurriculumByUserId();
+        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
+        List<Curriculum> curriculumByUserId = classServiceClient.getCurriculumByUserId(userId);
         return curriculumByUserId.stream().map(el -> {
             String teacherName = userServiceClient.getUserById(el.getTeacherId()).getUserName();
             return new CurriculumListResponse(el, teacherName);

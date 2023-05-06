@@ -8,8 +8,8 @@ import java.util.List;
 
 @FeignClient(name = "CLASS-SERVICE")
 public interface ClassServiceClient {
-    @GetMapping("/class/curriculum/curriculumList")
-    List<Curriculum> getCurriculumByUserId();
+    @GetMapping("/class/curriculum/curriculumList/{userId}")
+    List<Curriculum> getCurriculumByUserId(@PathVariable("userId") Long userId);
     @GetMapping("/studentBootcamp/{id}")
     StudentBootcamp findByStudentId (@PathVariable("id") Long id);
     @GetMapping("/class/curriculum/{curriculumId}")

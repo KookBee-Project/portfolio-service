@@ -15,6 +15,7 @@ public class CurriculumListResponse {
     private String skillSetName;
     private String teacherName;
     private String curriculumStartDate;
+    private String curriculumEndDate;
 
 
     public CurriculumListResponse(Curriculum el, String teacherName ) {
@@ -24,5 +25,6 @@ public class CurriculumListResponse {
         this.skillSetName = el.getSkillSet().getSkillSetName();
         this.teacherName = teacherName;
         this.curriculumStartDate = el.getCurriculumStartDate();
+        this.curriculumEndDate = el.getCurriculumEndDate();
     }
 }
