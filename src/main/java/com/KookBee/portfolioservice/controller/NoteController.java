@@ -19,7 +19,7 @@ public class NoteController {
     private final NoteService noteService;
 
     @PostMapping
-    public Note createNote(NoteCreateRequest request){
+    public Note createNote(@RequestBody NoteCreateRequest request){
         return noteService.createNote(request);
     }
     @GetMapping("")
@@ -31,7 +31,7 @@ public class NoteController {
         return noteService.getNoteList(curriculumId);
     }
     @PutMapping("")
-    public Note updateNote(NoteEditRequest request){
+    public Note updateNote(@RequestBody NoteEditRequest request){
         return noteService.updateNote(request);
     }
     @GetMapping("/{noteId}")
