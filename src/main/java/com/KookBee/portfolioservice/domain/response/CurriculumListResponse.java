@@ -16,15 +16,17 @@ public class CurriculumListResponse {
     private String teacherName;
     private String curriculumStartDate;
     private String curriculumEndDate;
+    private String bootcampTitle;
 
 
     public CurriculumListResponse(Curriculum el, String teacherName ) {
 
-        this.curriculumId = el.getId();
+        this.curriculumId = el.getCurriculumId();
         this.curriculumName = el.getCurriculumName();
-        this.skillSetName = el.getSkillSet().getSkillSetName();
+        this.skillSetName = el.getSkillSetName();
         this.teacherName = teacherName;
         this.curriculumStartDate = el.getCurriculumStartDate();
         this.curriculumEndDate = el.getCurriculumEndDate();
+        this.bootcampTitle = el.getBootcampTitle();
     }
 }

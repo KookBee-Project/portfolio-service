@@ -11,12 +11,12 @@ import lombok.Setter;
 @Setter
 
 public class Curriculum {
-    private Long id;
-    private Bootcamp bootcamp;
-    private Long teacherId; // teacher table nono user table id OO
+    private Long curriculumId;
+    private String bootcampTitle;
+    private Long teacherId;
     private String curriculumName;
     private String curriculumStartDate;
     private String curriculumEndDate;
-    private SkillSet skillSet;
+    private String skillSetName; // skillSet 가져올 시 serialize 에러가 발생하여 skillSet중 필요한 정보만 가져옴
 
 }

@@ -12,11 +12,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NoteCreateRequest {
-    private String id;
     private String title;
     private String content;
-    private Long writerId;
-    private LocalDateTime createAt;
     private String UUID;
     private Long curriculumId;
 }

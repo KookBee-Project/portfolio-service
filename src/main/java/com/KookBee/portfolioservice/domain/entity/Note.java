@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Setter
 @Document(collection = "post")
 public class Note {
-
     @Id
     private String id;
     private String title;
@@ -24,7 +23,6 @@ public class Note {
     private LocalDateTime createAt = LocalDateTime.now();
     private String UUID;
     private Long curriculumId;
-
 
     public Note createNote(NoteCreateRequest request, Long id){
         this.title = request.getTitle();

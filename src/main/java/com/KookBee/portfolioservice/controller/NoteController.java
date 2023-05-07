@@ -18,7 +18,7 @@ import java.util.List;
 public class NoteController {
     private final NoteService noteService;
 
-    @PostMapping("")
+    @PostMapping
     public Note createNote(NoteCreateRequest request){
         return noteService.createNote(request);
     }
@@ -26,8 +26,8 @@ public class NoteController {
     public List<CurriculumListResponse> getCurriculum() {
         return noteService.getCurriculumList();
     }
-    @GetMapping("/{curriculumId}")
-    public List<NoteListResponse> getNoteList(@PathVariable Long curriculumId) {
+    @GetMapping("/list/{curriculumId}")
+    public List<NoteListResponse> getNoteList(@PathVariable("curriculumId") Long curriculumId) {
         return noteService.getNoteList(curriculumId);
     }
     @PutMapping("")

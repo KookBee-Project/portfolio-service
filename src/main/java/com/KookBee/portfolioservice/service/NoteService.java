@@ -24,7 +24,7 @@ public class NoteService {
     private final JwtService jwtService;
     public Note createNote(NoteCreateRequest request) {
         Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
-        Note newNote = new Note().createNote(request,userId);
+        Note newNote = new Note().createNote(request, userId);
         return noteRepository.save(newNote);
     }
     public List<CurriculumListResponse> getCurriculumList() {
@@ -39,7 +39,7 @@ public class NoteService {
         Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
         List<Note> noteList = noteRepository.findAllByCurriculumIdAndWriterId(curriculumId, userId);
         return noteList.stream().map(el-> {
-            String skillSetName =  classServiceClient.getCurriculumByCurriculumId(curriculumId).getSkillSet().getSkillSetName();
+            String skillSetName =  classServiceClient.getCurriculumByCurriculumId(curriculumId).getSkillSetName();
             return new NoteListResponse(el, skillSetName);
         }).toList();
     }
