@@ -1,10 +1,12 @@
 package com.KookBee.portfolioservice.controller;
 
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegisterRequest;
+import com.KookBee.portfolioservice.domain.request.PortfolioStudyPostRegisterRequest;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyCheckResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyResponse;
 import com.KookBee.portfolioservice.service.GroupStudyService;
+import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,4 +52,12 @@ public class StudyController {
             @PathVariable("studyId") Long groupStudyId){
         return groupStudyService.findLectureList(groupStudyId);
     }
+
+    @PostMapping("/{studyId}/lecture/{lectureId}/post/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerGroupStudyPost(@PathVariable("lectureId") Long lectureId,
+                                       @RequestBody PortfolioStudyPostRegisterRequest request){
+        groupStudyService.registerGroupStudyPost(request, lectureId);
+    }
+
 }

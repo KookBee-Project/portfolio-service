@@ -1,15 +1,14 @@
 package com.KookBee.portfolioservice.service;
 
 import com.KookBee.portfolioservice.client.UserServiceClient;
-import com.KookBee.portfolioservice.domain.dto.GroupStudyLecturePostDTO;
-import com.KookBee.portfolioservice.domain.dto.GroupStudyMemberPostDTO;
-import com.KookBee.portfolioservice.domain.dto.GroupStudyPostDTO;
-import com.KookBee.portfolioservice.domain.dto.UserDTO;
+import com.KookBee.portfolioservice.domain.dto.*;
 import com.KookBee.portfolioservice.domain.entity.GroupStudy;
 import com.KookBee.portfolioservice.domain.entity.GroupStudyLecture;
 import com.KookBee.portfolioservice.domain.entity.GroupStudyMember;
+import com.KookBee.portfolioservice.domain.entity.GroupStudyPost;
 import com.KookBee.portfolioservice.domain.enums.EStudyStatus;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegisterRequest;
+import com.KookBee.portfolioservice.domain.request.PortfolioStudyPostRegisterRequest;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyCheckResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyLectureResponse;
@@ -123,5 +122,12 @@ public class GroupStudyService {
         }
         // 스터디 회차 리스트 반환
         return response;
+    }
+
+    public void registerGroupStudyPost(PortfolioStudyPostRegisterRequest request, Long lectureId){
+        GroupStudyLecture lecture = groupStudyLectureRepository.findById(lectureId).get();
+        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
+        GroupStudyPostPostDTO dto = new GroupStudyPostPostDTO(request, userId, lecture);
+        groupStudyPostRepository.save(new GroupStudyPost(dto));
     }
 }

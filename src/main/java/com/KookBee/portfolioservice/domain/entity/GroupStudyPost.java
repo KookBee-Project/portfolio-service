@@ -1,6 +1,7 @@
 package com.KookBee.portfolioservice.domain.entity;
 
 import com.KookBee.portfolioservice.domain.dto.GroupStudyLecturePostDTO;
+import com.KookBee.portfolioservice.domain.dto.GroupStudyPostPostDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,4 +24,12 @@ public class GroupStudyPost {
     private String groupStudyPostTitle;
     private String groupStudyPostContents;
     private LocalDate groupStudyPostCreateAt;
+
+    public GroupStudyPost(GroupStudyPostPostDTO dto) {
+        this.groupStudyLecture = dto.getGroupStudyLecture();
+        this.groupStudyPostWriter = dto.getGroupStudyPostWriter();
+        this.groupStudyPostTitle = dto.getGroupStudyPostTitle();
+        this.groupStudyPostContents = dto.getGroupStudyPostContents();
+        this.groupStudyPostCreateAt = dto.getGroupStudyPostCreateAt();
+    }
 }
