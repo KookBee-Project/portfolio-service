@@ -29,4 +29,11 @@ public class StudyController {
         return groupStudyService.findStudyList(pageable);
     }
 
+    @GetMapping
+    public Page<PortfolioStudyResponse> getMyStudyList(@RequestParam("page") Integer page){
+        final int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+        return groupStudyService.findMyStudyList(pageable);
+    }
+
 }

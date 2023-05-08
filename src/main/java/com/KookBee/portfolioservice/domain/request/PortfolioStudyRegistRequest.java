@@ -11,8 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @Getter @Setter
 public class PortfolioStudyRegistRequest {
-    private String studyName;
-    private String studyPerpose;
+    private String groupStudyName;
+    private String groupStudyPurpose;
     private List<Long> userIdList;
 
 }

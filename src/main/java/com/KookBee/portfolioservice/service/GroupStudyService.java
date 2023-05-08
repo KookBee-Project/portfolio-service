@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -45,12 +46,40 @@ public class GroupStudyService {
     public Page<PortfolioStudyResponse> findStudyList(Pageable pageable){
         EStudyStatus status = EStudyStatus.PROCEEDING;
         Page<GroupStudy> studies = groupStudyRepository.findProceedingGroupStudies(status, pageable);
-        List<PortfolioStudyResponse> responsList = studies.stream().map(el->{
-            UserDTO userById = userServiceClient.getUserById(el.getGroupStudyLeader());// leaderName
-            Integer memberCounts = groupStudyMemberRepository.memberCounts(el.getId());// memberCounts
+        // 리더의 Id를 리스트로 생성
+        List<Long> leaderIds = studies.stream().map(el->{
+            return el.getGroupStudyLeader();
+        }).toList();
+        // 이름list 반환
+        List<UserDTO> userListById = userServiceClient.getUserListById(leaderIds);
+        final int[] cnt = {0};
+        List<PortfolioStudyResponse> responsList = studies.stream().map((el)->{
+            UserDTO userById = userListById.get(cnt[0]); // leaderName
+            cnt[0]++;
+            Integer memberCounts = el.getGroupStudyMembers().size();
             return new PortfolioStudyResponse(el, userById, memberCounts);// GroupStudy
         }).toList();
-//        int totalSize = groupStudyRepository.findAll().size();
+        Integer totalSize = groupStudyRepository.groupStudyCounts(status);
+        return new PageImpl<>(responsList,pageable,totalSize);
+    }
+
+    public Page<PortfolioStudyResponse> findMyStudyList(Pageable pageable){
+        EStudyStatus status = EStudyStatus.PROCEEDING;
+        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId(); // 나의 userId
+        Page<GroupStudy> studies = groupStudyRepository.findMyGroupStudies(status, userId, pageable);
+        // 리더의 Id를 리스트로 생성
+        List<Long> leaderIds = studies.stream().map(el->{
+            return el.getGroupStudyLeader();
+        }).toList();
+        // 이름list 반환
+        List<UserDTO> userListById = userServiceClient.getUserListById(leaderIds);
+        final int[] cnt = {0};
+        List<PortfolioStudyResponse> responsList = studies.stream().map((el)->{
+            UserDTO userById = userListById.get(cnt[0]); // leaderName
+            cnt[0]++;
+            Integer memberCounts = el.getGroupStudyMembers().size();
+            return new PortfolioStudyResponse(el, userById, memberCounts);// GroupStudy
+        }).toList();
         Integer totalSize = groupStudyRepository.groupStudyCounts(status);
         return new PageImpl<>(responsList,pageable,totalSize);
     }

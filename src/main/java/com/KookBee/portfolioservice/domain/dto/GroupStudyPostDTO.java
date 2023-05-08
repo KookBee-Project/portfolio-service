@@ -17,9 +17,9 @@ public class GroupStudyPostDTO {
     private LocalDate groupStudyOpenDate;
 
     public GroupStudyPostDTO(PortfolioStudyRegistRequest request, Long userId) {
-        this.groupStudyName = request.getStudyName();
+        this.groupStudyName = request.getGroupStudyName();
         this.groupStudyLeader = userId;
-        this.groupStudyPurpose = request.getStudyPerpose();
+        this.groupStudyPurpose = request.getGroupStudyPurpose();
         this.groupStudyStatus = EStudyStatus.PROCEEDING;
         this.groupStudyOpenDate = LocalDate.now();
     }
