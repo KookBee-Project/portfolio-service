@@ -11,9 +11,12 @@ import com.KookBee.portfolioservice.domain.entity.GroupStudyMember;
 import com.KookBee.portfolioservice.domain.enums.EStudyStatus;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegisterRequest;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
+import com.KookBee.portfolioservice.domain.response.PortfolioStudyCheckResponse;
+import com.KookBee.portfolioservice.domain.response.PortfolioStudyLectureResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyResponse;
 import com.KookBee.portfolioservice.repository.GroupStudyLectureRepository;
 import com.KookBee.portfolioservice.repository.GroupStudyMemberRepository;
+import com.KookBee.portfolioservice.repository.GroupStudyPostRepository;
 import com.KookBee.portfolioservice.repository.GroupStudyRepository;
 import com.KookBee.portfolioservice.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +36,7 @@ public class GroupStudyService {
     private final GroupStudyMemberRepository groupStudyMemberRepository;
     private final UserServiceClient userServiceClient;
     private final GroupStudyLectureRepository groupStudyLectureRepository;
+    private final GroupStudyPostRepository groupStudyPostRepository;
 
     @Transactional
     public void registerGroupStudy(PortfolioStudyRegisterRequest request){
@@ -98,5 +102,26 @@ public class GroupStudyService {
             GroupStudyLecturePostDTO dto = new GroupStudyLecturePostDTO(request, groupStudy);
             groupStudyLectureRepository.save(new GroupStudyLecture(dto));
         }
+    }
+
+    public PortfolioStudyCheckResponse findLectureList(Long groupStudyId){
+        // 스터디에 속해있는 지 확인
+        List<Long> memberIdList = groupStudyMemberRepository.groupStudyMemberIdList(groupStudyId);
+        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
+        PortfolioStudyCheckResponse response = new PortfolioStudyCheckResponse();
+        if (memberIdList.contains(userId)){
+            List<GroupStudyLecture> byGroupStudyId = groupStudyLectureRepository.findByGroupStudyId(groupStudyId);
+            List<PortfolioStudyLectureResponse> lectureResponseList = byGroupStudyId.stream().map(el->{
+                Integer postCounts = groupStudyPostRepository.postCounts(el.getId());
+                return new PortfolioStudyLectureResponse(el, postCounts);
+            }).toList();
+            response.setResponseList(lectureResponseList);
+            response.setStudyJoin(true);
+        } else {
+            response.setResponseList(null);
+            response.setStudyJoin(false);
+        }
+        // 스터디 회차 리스트 반환
+        return response;
     }
 }

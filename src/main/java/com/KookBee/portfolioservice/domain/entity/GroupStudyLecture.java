@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -23,6 +24,9 @@ public class GroupStudyLecture {
     private String groupStudyLectureTitle;
     private String groupStudyLectureContents;
     private LocalDate groupStudyLectureCreateAt;
+    @OneToMany(mappedBy = "groupStudyLecture", fetch = FetchType.LAZY)
+    private List<GroupStudyPost> groupStudyPostList;
+
 
     public GroupStudyLecture(GroupStudyLecturePostDTO dto) {
         this.groupStudy = dto.getGroupStudy();

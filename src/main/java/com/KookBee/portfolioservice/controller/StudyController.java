@@ -2,6 +2,7 @@ package com.KookBee.portfolioservice.controller;
 
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegisterRequest;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
+import com.KookBee.portfolioservice.domain.response.PortfolioStudyCheckResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyResponse;
 import com.KookBee.portfolioservice.service.GroupStudyService;
 import lombok.RequiredArgsConstructor;
@@ -44,4 +45,9 @@ public class StudyController {
         groupStudyService.registerGroupStudyLecture(request, groupStudyId);
     }
 
+    @GetMapping("/{studyId}")
+    public PortfolioStudyCheckResponse getStudyAndLectureList(
+            @PathVariable("studyId") Long groupStudyId){
+        return groupStudyService.findLectureList(groupStudyId);
+    }
 }
