@@ -1,6 +1,7 @@
 package com.KookBee.portfolioservice.controller;
 
-import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegistRequest;
+import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegisterRequest;
+import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyResponse;
 import com.KookBee.portfolioservice.service.GroupStudyService;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class StudyController {
     private final GroupStudyService groupStudyService;
 
-    @PostMapping("/regist")
+    @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registGroupStudy(@RequestBody PortfolioStudyRegistRequest request){
-        groupStudyService.registGroupStudy(request);
+    public void registerGroupStudy(@RequestBody PortfolioStudyRegisterRequest request){
+        groupStudyService.registerGroupStudy(request);
     }
 
     @GetMapping("/findstudy")
@@ -34,6 +35,13 @@ public class StudyController {
         final int size = 10;
         Pageable pageable = PageRequest.of(page, size);
         return groupStudyService.findMyStudyList(pageable);
+    }
+
+    @PostMapping("/{studyId}/lecture/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerGroupStudyLecture(@PathVariable("studyId") Long groupStudyId,
+                                          @RequestBody PortfolioStudyLectureRegisterRequest request){
+        groupStudyService.registerGroupStudyLecture(request, groupStudyId);
     }
 
 }

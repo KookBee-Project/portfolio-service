@@ -5,14 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
-public class PortfolioStudyRegistRequest {
-    private String groupStudyName;
-    private String groupStudyPurpose;
-    private List<Long> userIdList;
-
+public class PortfolioStudyLectureRegisterRequest {
+    private Integer groupStudyLectureIteration;
+    private String groupStudyLectureTitle;
+    private String groupStudyLectureContents;
 }

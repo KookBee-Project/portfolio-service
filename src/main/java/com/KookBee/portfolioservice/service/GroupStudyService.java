@@ -1,14 +1,18 @@
 package com.KookBee.portfolioservice.service;
 
 import com.KookBee.portfolioservice.client.UserServiceClient;
+import com.KookBee.portfolioservice.domain.dto.GroupStudyLecturePostDTO;
 import com.KookBee.portfolioservice.domain.dto.GroupStudyMemberPostDTO;
 import com.KookBee.portfolioservice.domain.dto.GroupStudyPostDTO;
 import com.KookBee.portfolioservice.domain.dto.UserDTO;
 import com.KookBee.portfolioservice.domain.entity.GroupStudy;
+import com.KookBee.portfolioservice.domain.entity.GroupStudyLecture;
 import com.KookBee.portfolioservice.domain.entity.GroupStudyMember;
 import com.KookBee.portfolioservice.domain.enums.EStudyStatus;
-import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegistRequest;
+import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegisterRequest;
+import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyResponse;
+import com.KookBee.portfolioservice.repository.GroupStudyLectureRepository;
 import com.KookBee.portfolioservice.repository.GroupStudyMemberRepository;
 import com.KookBee.portfolioservice.repository.GroupStudyRepository;
 import com.KookBee.portfolioservice.security.JwtService;
@@ -19,7 +23,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -29,9 +32,10 @@ public class GroupStudyService {
     private final GroupStudyRepository groupStudyRepository;
     private final GroupStudyMemberRepository groupStudyMemberRepository;
     private final UserServiceClient userServiceClient;
+    private final GroupStudyLectureRepository groupStudyLectureRepository;
 
     @Transactional
-    public void registGroupStudy(PortfolioStudyRegistRequest request){
+    public void registerGroupStudy(PortfolioStudyRegisterRequest request){
         Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
         GroupStudyPostDTO dto = new GroupStudyPostDTO(request, userId);
         GroupStudy saveStudy = groupStudyRepository.save(new GroupStudy(dto));
@@ -52,6 +56,7 @@ public class GroupStudyService {
         }).toList();
         // 이름list 반환
         List<UserDTO> userListById = userServiceClient.getUserListById(leaderIds);
+
         final int[] cnt = {0};
         List<PortfolioStudyResponse> responsList = studies.stream().map((el)->{
             UserDTO userById = userListById.get(cnt[0]); // leaderName
@@ -82,5 +87,16 @@ public class GroupStudyService {
         }).toList();
         Integer totalSize = groupStudyRepository.groupStudyCounts(status);
         return new PageImpl<>(responsList,pageable,totalSize);
+    }
+
+    public void registerGroupStudyLecture(PortfolioStudyLectureRegisterRequest request, Long groupStudyId){
+        // 유저가 이 스터디의 리더인가
+        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
+        GroupStudy groupStudy = groupStudyRepository.findById(groupStudyId).get();
+        if (groupStudy.getGroupStudyLeader() == userId){
+            // 회차추가
+            GroupStudyLecturePostDTO dto = new GroupStudyLecturePostDTO(request, groupStudy);
+            groupStudyLectureRepository.save(new GroupStudyLecture(dto));
+        }
     }
 }
