@@ -29,7 +29,7 @@ public class NoteController {
     public List<NoteListResponse> getNoteList(@PathVariable("curriculumId") Long curriculumId) {
         return noteService.getNoteList(curriculumId);
     }
-    @PutMapping("")
+    @PutMapping
     public Note updateNote(@RequestBody NoteEditRequest request){
         return noteService.updateNote(request);
     }

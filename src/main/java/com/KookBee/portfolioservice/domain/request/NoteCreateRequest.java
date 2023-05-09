@@ -14,6 +14,6 @@ import java.time.LocalDateTime;
 public class NoteCreateRequest {
     private String title;
     private String content;
-    private String UUID;
+    private String uuid;
     private Long curriculumId;
 }
