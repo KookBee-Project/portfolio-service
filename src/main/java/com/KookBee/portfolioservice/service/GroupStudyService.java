@@ -12,6 +12,7 @@ import com.KookBee.portfolioservice.domain.request.PortfolioStudyPostRegisterReq
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyCheckResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyLectureResponse;
+import com.KookBee.portfolioservice.domain.response.PortfolioStudyPostResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyResponse;
 import com.KookBee.portfolioservice.repository.GroupStudyLectureRepository;
 import com.KookBee.portfolioservice.repository.GroupStudyMemberRepository;
@@ -129,5 +130,13 @@ public class GroupStudyService {
         Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
         GroupStudyPostPostDTO dto = new GroupStudyPostPostDTO(request, userId, lecture);
         groupStudyPostRepository.save(new GroupStudyPost(dto));
+    }
+
+    public List<PortfolioStudyPostResponse> findPostList(Long lectureId){
+        List<GroupStudyPost> postList = groupStudyPostRepository.findAllByLectureId(lectureId);
+        List<PortfolioStudyPostResponse> responses = postList.stream().map(el->{
+            return new PortfolioStudyPostResponse(el);
+        }).toList();
+        return responses;
     }
 }

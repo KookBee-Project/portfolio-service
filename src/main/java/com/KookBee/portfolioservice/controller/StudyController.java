@@ -4,6 +4,7 @@ import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegister
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyPostRegisterRequest;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyCheckResponse;
+import com.KookBee.portfolioservice.domain.response.PortfolioStudyPostResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyResponse;
 import com.KookBee.portfolioservice.service.GroupStudyService;
 import jakarta.ws.rs.Path;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("portfolio/study")
@@ -60,4 +63,8 @@ public class StudyController {
         groupStudyService.registerGroupStudyPost(request, lectureId);
     }
 
+    @GetMapping("/{studyId}/lecture/{lectureId}")
+    public List<PortfolioStudyPostResponse> getPostList(@PathVariable("lectureId") Long lectureId){
+        return groupStudyService.findPostList(lectureId);
+    }
 }
