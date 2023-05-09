@@ -7,7 +7,7 @@ import com.KookBee.portfolioservice.domain.entity.Note;
 import com.KookBee.portfolioservice.domain.request.NoteCreateRequest;
 import com.KookBee.portfolioservice.domain.request.NoteEditRequest;
 import com.KookBee.portfolioservice.domain.response.CurriculumListResponse;
-import com.KookBee.portfolioservice.domain.response.NoteListResponse;
+import com.KookBee.portfolioservice.domain.response.noteResponse.NoteListResponse;
 import com.KookBee.portfolioservice.repository.NoteRepository;
 import com.KookBee.portfolioservice.security.JwtService;
 import lombok.RequiredArgsConstructor;

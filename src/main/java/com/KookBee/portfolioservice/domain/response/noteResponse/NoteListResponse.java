@@ -1,4 +1,4 @@
-package com.KookBee.portfolioservice.domain.response;
+package com.KookBee.portfolioservice.domain.response.noteResponse;
 
 import com.KookBee.portfolioservice.domain.entity.Note;
 import lombok.AllArgsConstructor;
