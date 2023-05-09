@@ -2,22 +2,13 @@ package com.KookBee.portfolioservice.service;
 
 import com.KookBee.portfolioservice.client.UserServiceClient;
 import com.KookBee.portfolioservice.domain.dto.*;
-import com.KookBee.portfolioservice.domain.entity.GroupStudy;
-import com.KookBee.portfolioservice.domain.entity.GroupStudyLecture;
-import com.KookBee.portfolioservice.domain.entity.GroupStudyMember;
-import com.KookBee.portfolioservice.domain.entity.GroupStudyPost;
+import com.KookBee.portfolioservice.domain.entity.*;
 import com.KookBee.portfolioservice.domain.enums.EStudyStatus;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegisterRequest;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyPostRegisterRequest;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
-import com.KookBee.portfolioservice.domain.response.PortfolioStudyCheckResponse;
-import com.KookBee.portfolioservice.domain.response.PortfolioStudyLectureResponse;
-import com.KookBee.portfolioservice.domain.response.PortfolioStudyPostResponse;
-import com.KookBee.portfolioservice.domain.response.PortfolioStudyResponse;
-import com.KookBee.portfolioservice.repository.GroupStudyLectureRepository;
-import com.KookBee.portfolioservice.repository.GroupStudyMemberRepository;
-import com.KookBee.portfolioservice.repository.GroupStudyPostRepository;
-import com.KookBee.portfolioservice.repository.GroupStudyRepository;
+import com.KookBee.portfolioservice.domain.response.*;
+import com.KookBee.portfolioservice.repository.*;
 import com.KookBee.portfolioservice.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -37,6 +28,7 @@ public class GroupStudyService {
     private final UserServiceClient userServiceClient;
     private final GroupStudyLectureRepository groupStudyLectureRepository;
     private final GroupStudyPostRepository groupStudyPostRepository;
+    private final GroupStudyReviewRepository groupStudyReviewRepository;
 
     @Transactional
     public void registerGroupStudy(PortfolioStudyRegisterRequest request){
@@ -135,7 +127,12 @@ public class GroupStudyService {
     public List<PortfolioStudyPostResponse> findPostList(Long lectureId){
         List<GroupStudyPost> postList = groupStudyPostRepository.findAllByLectureId(lectureId);
         List<PortfolioStudyPostResponse> responses = postList.stream().map(el->{
-            return new PortfolioStudyPostResponse(el);
+            String userName = userServiceClient.getUserById(el.getGroupStudyPostWriter()).getUserName();
+            List<PortfolioStudyReviewResponse> reviewList =
+                    groupStudyReviewRepository.findAllByPostId(el.getId()).stream().map(el2->{
+                return new PortfolioStudyReviewResponse(el2);
+            }).toList();
+            return new PortfolioStudyPostResponse(el, userName, reviewList);
         }).toList();
         return responses;
     }
