@@ -3,6 +3,7 @@ package com.KookBee.portfolioservice.controller;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegisterRequest;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyPostRegisterRequest;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
+import com.KookBee.portfolioservice.domain.request.PortfolioStudyReviewRegisterRequest;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyCheckResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyPostResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyResponse;
@@ -67,4 +68,12 @@ public class StudyController {
     public List<PortfolioStudyPostResponse> getPostList(@PathVariable("lectureId") Long lectureId){
         return groupStudyService.findPostList(lectureId);
     }
+
+    @PostMapping("/{studyId}/lecture/{lectureId}/post/{postId}/review/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerGroupStudyReview(@PathVariable("postId") Long postId,
+                                         @RequestBody PortfolioStudyReviewRegisterRequest request){
+        groupStudyService.registerGroupStudyReview(request, postId);
+    }
+
 }

@@ -7,6 +7,7 @@ import com.KookBee.portfolioservice.domain.enums.EStudyStatus;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegisterRequest;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyPostRegisterRequest;
 import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
+import com.KookBee.portfolioservice.domain.request.PortfolioStudyReviewRegisterRequest;
 import com.KookBee.portfolioservice.domain.response.*;
 import com.KookBee.portfolioservice.repository.*;
 import com.KookBee.portfolioservice.security.JwtService;
@@ -135,5 +136,13 @@ public class GroupStudyService {
             return new PortfolioStudyPostResponse(el, userName, reviewList);
         }).toList();
         return responses;
+    }
+
+    public void registerGroupStudyReview(PortfolioStudyReviewRegisterRequest request, Long postId){
+        GroupStudyPost post = groupStudyPostRepository.findById(postId).orElse(null);
+        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
+        String userName = userServiceClient.getUserById(userId).getUserName();
+        GroupStudyReviewPostDTO dto = new GroupStudyReviewPostDTO(request, post, userId, userName);
+        groupStudyReviewRepository.save(new GroupStudyReview(dto));
     }
 }
