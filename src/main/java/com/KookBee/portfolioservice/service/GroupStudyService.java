@@ -125,7 +125,7 @@ public class GroupStudyService {
     }
 
     public void registerGroupStudyPost(PortfolioStudyPostRegisterRequest request, Long lectureId){
-        GroupStudyLecture lecture = groupStudyLectureRepository.findById(lectureId).get();
+        GroupStudyLecture lecture = groupStudyLectureRepository.findById(lectureId).orElse(null);
         Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
         GroupStudyPostPostDTO dto = new GroupStudyPostPostDTO(request, userId, lecture);
         groupStudyPostRepository.save(new GroupStudyPost(dto));
