@@ -21,14 +21,14 @@ public class Note {
     private String content;
     private Long writerId;
     private LocalDateTime createAt = LocalDateTime.now();
-    private String UUID;
+    private String uuid;
     private Long curriculumId;
 
     public Note createNote(NoteCreateRequest request, Long id){
         this.title = request.getTitle();
         this.content = request.getContent();
         this.writerId = id;
-        this.UUID = request.getUUID();
+        this.uuid = request.getUuid();
         this.curriculumId = request.getCurriculumId();
         return this;
     }
@@ -36,7 +36,7 @@ public class Note {
         this.id = request.getId();
         this.title = request.getTitle();
         this.content = request.getContent();
-        this.UUID = request.getUUID();
+        this.uuid = request.getUuid();
         return this;
     }
 

@@ -21,7 +21,8 @@ public class NoteListResponse {
 
     public NoteListResponse(Note el, String skillSetName) {
         this.noteId = el.getId();
-        this.noteTitle = el.getTitle();
+        if(el.getTitle().length() >= 15) this.noteTitle = el.getTitle().substring(0, 14) + "...";
+        else this.noteTitle = el.getTitle();
         this.createAt = el.getCreateAt();
         this.skillSetName = skillSetName;
     }

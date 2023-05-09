@@ -18,7 +18,7 @@ public class NoteDetailResponse {
     private String content;
     private String writerName;
     private LocalDateTime createAt;
-    private String UUID;
+    private String uuid;
     private String skillSetName;
 
     public NoteDetailResponse(Note note, String writerName, String skillSetName) {
@@ -27,7 +27,7 @@ public class NoteDetailResponse {
         this.content = note.getContent();
         this.writerName = writerName;
         this.createAt = note.getCreateAt();
-        this.UUID = note.getUUID();
+        this.uuid = note.getUuid();
         this.skillSetName = skillSetName;
     }
 }
