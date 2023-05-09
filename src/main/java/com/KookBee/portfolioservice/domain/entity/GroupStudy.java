@@ -31,6 +31,9 @@ public class GroupStudy {
     @OneToMany(mappedBy = "groupStudy", fetch = FetchType.LAZY)
     private List<GroupStudyLecture> groupStudyLectureList;
 
+    @OneToMany(mappedBy = "groupStudy", fetch = FetchType.LAZY)
+    private List<GroupStudyApply> groupStudyApplies;
+
     public GroupStudy(GroupStudyPostDTO dto) {
         this.groupStudyName = dto.getGroupStudyName();
         this.groupStudyLeader = dto.getGroupStudyLeader();

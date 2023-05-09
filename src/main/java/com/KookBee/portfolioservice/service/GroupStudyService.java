@@ -4,10 +4,7 @@ import com.KookBee.portfolioservice.client.UserServiceClient;
 import com.KookBee.portfolioservice.domain.dto.*;
 import com.KookBee.portfolioservice.domain.entity.*;
 import com.KookBee.portfolioservice.domain.enums.EStudyStatus;
-import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegisterRequest;
-import com.KookBee.portfolioservice.domain.request.PortfolioStudyPostRegisterRequest;
-import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
-import com.KookBee.portfolioservice.domain.request.PortfolioStudyReviewRegisterRequest;
+import com.KookBee.portfolioservice.domain.request.*;
 import com.KookBee.portfolioservice.domain.response.*;
 import com.KookBee.portfolioservice.repository.*;
 import com.KookBee.portfolioservice.security.JwtService;
@@ -30,6 +27,7 @@ public class GroupStudyService {
     private final GroupStudyLectureRepository groupStudyLectureRepository;
     private final GroupStudyPostRepository groupStudyPostRepository;
     private final GroupStudyReviewRepository groupStudyReviewRepository;
+    private final GroupStudyApplyRepository groupStudyApplyRepository;
 
     @Transactional
     public void registerGroupStudy(PortfolioStudyRegisterRequest request){
@@ -46,7 +44,8 @@ public class GroupStudyService {
 
     public Page<PortfolioStudyResponse> findStudyList(Pageable pageable){
         EStudyStatus status = EStudyStatus.PROCEEDING;
-        Page<GroupStudy> studies = groupStudyRepository.findProceedingGroupStudies(status, pageable);
+        Page<GroupStudy> studies;
+        studies = groupStudyRepository.findProceedingGroupStudies(status, pageable);
         // 리더의 Id를 리스트로 생성
         List<Long> leaderIds = studies.stream().map(el->{
             return el.getGroupStudyLeader();
@@ -68,7 +67,8 @@ public class GroupStudyService {
     public Page<PortfolioStudyResponse> findMyStudyList(Pageable pageable){
         EStudyStatus status = EStudyStatus.PROCEEDING;
         Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId(); // 나의 userId
-        Page<GroupStudy> studies = groupStudyRepository.findMyGroupStudies(status, userId, pageable);
+        Page<GroupStudy> studies;
+        studies = groupStudyRepository.findMyGroupStudies(status, userId, pageable);
         // 리더의 Id를 리스트로 생성
         List<Long> leaderIds = studies.stream().map(el->{
             return el.getGroupStudyLeader();
@@ -144,5 +144,25 @@ public class GroupStudyService {
         String userName = userServiceClient.getUserById(userId).getUserName();
         GroupStudyReviewPostDTO dto = new GroupStudyReviewPostDTO(request, post, userId, userName);
         groupStudyReviewRepository.save(new GroupStudyReview(dto));
+    }
+
+    public void applyGroupStudy(PortfolioStudyApplyRequest request, Long studyId){
+        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
+        String userName = userServiceClient.getUserById(userId).getUserName();
+        GroupStudy study = groupStudyRepository.findById(studyId).orElse(null);
+        GroupStudyApplyPostDTO dto = new GroupStudyApplyPostDTO(request, study, userId, userName);
+        groupStudyApplyRepository.save(new GroupStudyApply(dto));
+    }
+
+    public List<PortfolioStudyApplyResponse> findStudyApplyList(){
+        EStudyStatus status = EStudyStatus.PROCEEDING;
+        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
+        List<GroupStudyApply> applyList = groupStudyApplyRepository
+                .findAllByLeaderId(userId, status);
+        // 리스폰스를 만들어준다.
+        List<PortfolioStudyApplyResponse> responses = applyList.stream().map(el->{
+            return new PortfolioStudyApplyResponse(el);
+        }).toList();
+        return responses;
     }
 }

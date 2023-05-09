@@ -1,9 +1,7 @@
 package com.KookBee.portfolioservice.controller;
 
-import com.KookBee.portfolioservice.domain.request.PortfolioStudyLectureRegisterRequest;
-import com.KookBee.portfolioservice.domain.request.PortfolioStudyPostRegisterRequest;
-import com.KookBee.portfolioservice.domain.request.PortfolioStudyRegisterRequest;
-import com.KookBee.portfolioservice.domain.request.PortfolioStudyReviewRegisterRequest;
+import com.KookBee.portfolioservice.domain.request.*;
+import com.KookBee.portfolioservice.domain.response.PortfolioStudyApplyResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyCheckResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyPostResponse;
 import com.KookBee.portfolioservice.domain.response.PortfolioStudyResponse;
@@ -76,4 +74,15 @@ public class StudyController {
         groupStudyService.registerGroupStudyReview(request, postId);
     }
 
+    @PostMapping("/{studyId}/apply")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void applyGroupStudy(@PathVariable("studyId") Long studyId,
+                                @RequestBody PortfolioStudyApplyRequest request){
+        groupStudyService.applyGroupStudy(request, studyId);
+    }
+
+    @GetMapping("/apply")
+    public List<PortfolioStudyApplyResponse> getStudyApplyList(){
+        return groupStudyService.findStudyApplyList();
+    }
 }
