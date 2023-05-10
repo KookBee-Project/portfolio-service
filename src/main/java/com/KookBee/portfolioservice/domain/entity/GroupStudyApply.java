@@ -1,11 +1,15 @@
 package com.KookBee.portfolioservice.domain.entity;
 
 import com.KookBee.portfolioservice.domain.dto.GroupStudyApplyPostDTO;
+import com.KookBee.portfolioservice.domain.dto.GroupStudyApplyPutDTO;
 import com.KookBee.portfolioservice.domain.enums.EStudyApplyStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -23,6 +27,7 @@ public class GroupStudyApply {
     private GroupStudy groupStudy;
     @Enumerated(EnumType.STRING)
     private EStudyApplyStatus eStudyApplyStatus;
+    private LocalDate groupStudyApplyCreateAt;
 
     public GroupStudyApply(GroupStudyApplyPostDTO dto) {
         this.groupStudyApplicantId = dto.getGroupStudyApplicantId();
@@ -30,5 +35,12 @@ public class GroupStudyApply {
         this.groupStudyApplyContents = dto.getGroupStudyApplyContents();
         this.groupStudy = dto.getGroupStudy();
         this.eStudyApplyStatus = dto.getEStudyApplyStatus();
+        this.groupStudyApplyCreateAt = dto.getGroupStudyApplyCreateAt();
+    }
+
+    public GroupStudyApply updateApplyStatus(GroupStudyApplyPutDTO dto){
+        this.id = dto.getGroupStudyApplyId();
+        this.eStudyApplyStatus = dto.getEStudyApplyStatus();
+        return this;
     }
 }

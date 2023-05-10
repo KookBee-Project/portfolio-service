@@ -3,6 +3,7 @@ package com.KookBee.portfolioservice.service;
 import com.KookBee.portfolioservice.client.UserServiceClient;
 import com.KookBee.portfolioservice.domain.dto.*;
 import com.KookBee.portfolioservice.domain.entity.*;
+import com.KookBee.portfolioservice.domain.enums.EStudyApplyStatus;
 import com.KookBee.portfolioservice.domain.enums.EStudyStatus;
 import com.KookBee.portfolioservice.domain.request.*;
 import com.KookBee.portfolioservice.domain.response.*;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -155,14 +157,32 @@ public class GroupStudyService {
     }
 
     public List<PortfolioStudyApplyResponse> findStudyApplyList(){
-        EStudyStatus status = EStudyStatus.PROCEEDING;
-        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
-        List<GroupStudyApply> applyList = groupStudyApplyRepository
-                .findAllByLeaderId(userId, status);
-        // 리스폰스를 만들어준다.
-        List<PortfolioStudyApplyResponse> responses = applyList.stream().map(el->{
-            return new PortfolioStudyApplyResponse(el);
-        }).toList();
-        return responses;
+        try {
+            EStudyStatus status = EStudyStatus.PROCEEDING;
+            Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
+            List<GroupStudyApply> applyList = groupStudyApplyRepository
+                    .findAllByLeaderId(userId, status);
+            // 리스폰스를 만들어준다.
+            List<PortfolioStudyApplyResponse> responses = applyList.stream().map(el -> {
+                return new PortfolioStudyApplyResponse(el);
+            }).toList();
+            return responses;
+        }catch(Exception e){
+            System.out.print("");
+            throw new RuntimeException();
+        }
+    }
+
+    @Transactional
+    public String putStudyApply(Long applyId, PortfolioStudyApplyPutRequest request){
+        GroupStudyApplyPutDTO dto = new GroupStudyApplyPutDTO(request, applyId);
+        GroupStudyApply apply = groupStudyApplyRepository.findById(applyId).orElse(null);
+        apply.updateApplyStatus(dto);
+        groupStudyApplyRepository.save(apply);
+        if (apply.getEStudyApplyStatus() == EStudyApplyStatus.APPROVAL){
+            GroupStudyMemberPostDTO memberPostDTO = new GroupStudyMemberPostDTO(apply);
+            groupStudyMemberRepository.save(new GroupStudyMember(memberPostDTO));
+        }
+        return String.valueOf(dto.getEStudyApplyStatus());
     }
 }

@@ -85,4 +85,14 @@ public class StudyController {
     public List<PortfolioStudyApplyResponse> getStudyApplyList(){
         return groupStudyService.findStudyApplyList();
     }
+
+    @PutMapping("/apply/{applyId}")
+    public String putStudyApply(@PathVariable("applyId") Long applyId,
+                                @RequestBody PortfolioStudyApplyPutRequest request){
+        System.out.println(request.getStudyApplyStatus());
+        return groupStudyService.putStudyApply(applyId,request);
+    }
+
+//    @GetMapping("/my/apply")
+//    public
 }

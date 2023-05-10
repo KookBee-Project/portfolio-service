@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
@@ -17,6 +20,7 @@ public class GroupStudyApplyPostDTO {
     private String groupStudyApplyContents;
     private GroupStudy groupStudy;
     private EStudyApplyStatus eStudyApplyStatus;
+    private LocalDate groupStudyApplyCreateAt;
 
     public GroupStudyApplyPostDTO(PortfolioStudyApplyRequest request,
                                   GroupStudy groupStudy, Long userId, String userName) {
@@ -25,5 +29,6 @@ public class GroupStudyApplyPostDTO {
         this.groupStudyApplyContents = request.getGroupStudyApplyContents();
         this.groupStudy = groupStudy;
         this.eStudyApplyStatus = EStudyApplyStatus.PENDING;
+        this.groupStudyApplyCreateAt = LocalDate.now();
     }
 }
