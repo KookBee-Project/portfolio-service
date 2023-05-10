@@ -1,7 +1,7 @@
 package com.KookBee.portfolioservice.client;
 
-import com.KookBee.portfolioservice.domain.dto.UserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import com.KookBee.portfolioservice.domain.dto.UserDTO;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.*;
 
