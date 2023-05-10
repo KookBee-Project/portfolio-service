@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class TokenInfo {
     private Long id;
 

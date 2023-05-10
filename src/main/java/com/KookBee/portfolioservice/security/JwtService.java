@@ -1,4 +1,5 @@
 package com.KookBee.portfolioservice.security;
+
 import com.KookBee.portfolioservice.domain.entity.RefreshToken;
 import com.KookBee.portfolioservice.repository.RefreshTokenRepository;
 import io.jsonwebtoken.Claims;
@@ -27,9 +28,7 @@ public class JwtService {
     @Value("${jwt.REFRESH_SECRET_KEY}")
     private String RefreshSecret;
 
-
-
-    //    public void setAccessTokenInHttpOnlyCookie(HttpServletResponse response, String accessToken) {
+//    public void setAccessTokenInHttpOnlyCookie(HttpServletResponse response, String accessToken) {
 //        // 쿠키 생성 및 값 설정
 //        response.addHeader("Set-Cookie", ResponseCookie.from("accessToken", accessToken)
 //                .maxAge(60 * 30)// 쿠키 만료일 설정 (예: 30분)

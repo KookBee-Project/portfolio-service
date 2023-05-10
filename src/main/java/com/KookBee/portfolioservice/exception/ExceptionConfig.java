@@ -19,4 +19,8 @@ public class ExceptionConfig {
     public ResponseEntity<String> loginException(ProjectJoinStatusCheckException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(AlreadyRegisteredMemberException.class)
+    public ResponseEntity<String> alreadyRegisteredMemberException(AlreadyRegisteredMemberException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
