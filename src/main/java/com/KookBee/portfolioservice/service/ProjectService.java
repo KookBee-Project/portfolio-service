@@ -5,6 +5,7 @@ import com.KookBee.portfolioservice.domain.entity.Project;
 import com.KookBee.portfolioservice.domain.entity.ProjectUser;
 import com.KookBee.portfolioservice.domain.enums.EAllStatus;
 import com.KookBee.portfolioservice.domain.request.ProjectRequest;
+import com.KookBee.portfolioservice.domain.request.ProjectSubmitRequest;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectDetailResponse;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectListResponse;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectResponse;
@@ -46,18 +47,13 @@ public class ProjectService {
     }
 
     public List<ProjectListResponse> getProjectList(Long bootcampId) {
-        List<Project> projectList = projectRepository.findAllByBootcampId(bootcampId);
-        return projectList.stream().map(el -> new ProjectListResponse(el, projectUserRepository.countByProject(el))).toList();
+        List<Project> projectList = projectRepository.findAllByBootcampIdAndProjectStatusNot(bootcampId,EAllStatus.DELETED);
+        return projectList.stream().map(el->new ProjectListResponse(el,(long)el.getProjectUserList().size())).toList();
     }
     public ProjectDetailResponse getProject (Long projectId){
         Project project = projectRepository.findById(projectId).orElse(null);
         assert project != null;
-        List<String> projectUserList
-                = projectUserRepository.findAllByProject(project)
-                .stream()
-                .map(el ->
-                        userServiceClient.getUserById(el.getUserId()).getUserName())
-                .toList(); // 이부분 효율 안나올듯?
+        List<String> projectUserList = project.getProjectUserList().stream().map(ProjectUser::getUserName).toList();
         return new ProjectDetailResponse(project, projectUserList);
     }
     public ProjectResponse deleteProject (Long projectId) {
@@ -70,6 +66,26 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).orElse(null);
         assert project != null;
         projectRepository.save(project.updateProject(request));
+        return new ProjectResponse(project);
+    }
+
+    public ProjectResponse startProject(Long projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(NullPointerException::new);
+        projectRepository.save(project.updateStatus(EAllStatus.PROGRESS));
+        return new ProjectResponse(project);
+    }
+
+    public List<ProjectListResponse> getMyProjectList() {
+        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
+        List<ProjectUser> projectUsers = projectUserRepository.findByUserIdAndProjectStatusNot(userId, EAllStatus.DELETED);
+        return projectUsers.stream().map(el ->
+                        new ProjectListResponse(el.getProject(), (long)el.getProject().getProjectUserList().size()))
+                .toList();
+    }
+
+    public ProjectResponse endProject(Long projectId, ProjectSubmitRequest request) {
+        Project project = projectRepository.findById(projectId).orElseThrow(NullPointerException::new);
+        projectRepository.save(project.finishedProject(request, EAllStatus.FINISHED));
         return new ProjectResponse(project);
     }
 }

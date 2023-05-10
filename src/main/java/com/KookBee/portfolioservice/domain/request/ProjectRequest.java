@@ -13,12 +13,11 @@ import java.util.List;
 @Getter
 @Setter
 public class ProjectRequest {
+    private String projectTitle;
     private String projectTeamName;
     private String projectLeaderName;
     private String projectSubject;
     private String projectDescription;
-    private String projectOutputLink;
-    private String projectOutputFileUUID;
     private EAllStatus projectStatus;
 
 

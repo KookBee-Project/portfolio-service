@@ -1,6 +1,7 @@
 package com.KookBee.portfolioservice.controller;
 
 import com.KookBee.portfolioservice.domain.request.ProjectRequest;
+import com.KookBee.portfolioservice.domain.request.ProjectSubmitRequest;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectDetailResponse;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectListResponse;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectResponse;
@@ -16,20 +17,33 @@ import java.util.List;
 public class ProjectController {
     private final ProjectService projectService;
     @PostMapping("/{bootcampId}")
-    public ProjectResponse createProject(@PathVariable Long bootcampId,@RequestBody ProjectRequest request){
+    public ProjectResponse createProject(@PathVariable("bootcampId") Long bootcampId,@RequestBody ProjectRequest request){
         return projectService.createNewProject(bootcampId, request);
     }
     @GetMapping("/{bootcampId}")
-    public List<ProjectListResponse> getProjectList(@PathVariable Long bootcampId) {
+    public List<ProjectListResponse> getProjectList(@PathVariable("bootcampId") Long bootcampId) {
         return projectService.getProjectList(bootcampId);
     }
+
+    @GetMapping("/my")
+    public List<ProjectListResponse> getMyProjectList() {
+        return projectService.getMyProjectList();
+    }
     @GetMapping("/detail/{projectId}")
-    public ProjectDetailResponse getProject(@PathVariable Long projectId){
+    public ProjectDetailResponse getProject(@PathVariable("projectId") Long projectId){
         return projectService.getProject(projectId);
     }
     @DeleteMapping("/detail/{projectId}")
-    public ProjectResponse deleteProject(@PathVariable Long projectId){
+    public ProjectResponse deleteProject(@PathVariable("projectId") Long projectId){
         return projectService.deleteProject(projectId);
+    }
+    @PutMapping("/start/{projectId}")
+    public ProjectResponse startProject(@PathVariable("projectId") Long projectId){
+        return projectService.startProject(projectId);
+    }
+    @PutMapping("/submit/{projectId}")
+    public ProjectResponse submitProject(@PathVariable("projectId") Long projectId, @RequestBody ProjectSubmitRequest request){
+        return projectService.endProject(projectId, request);
     }
     @PutMapping("/detail/{projectId}")
     public ProjectResponse updateProject(@PathVariable Long projectId, @RequestBody ProjectRequest request){
