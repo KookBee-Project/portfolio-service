@@ -7,6 +7,7 @@ import com.KookBee.portfolioservice.domain.enums.EStudyApplyStatus;
 import com.KookBee.portfolioservice.domain.enums.EStudyStatus;
 import com.KookBee.portfolioservice.domain.request.*;
 import com.KookBee.portfolioservice.domain.response.*;
+import com.KookBee.portfolioservice.exception.AlreadyRegisteredMemberException;
 import com.KookBee.portfolioservice.repository.*;
 import com.KookBee.portfolioservice.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -174,14 +175,20 @@ public class GroupStudyService {
     }
 
     @Transactional
-    public String putStudyApply(Long applyId, PortfolioStudyApplyPutRequest request){
+    public String putStudyApply(Long applyId, PortfolioStudyApplyPutRequest request) throws AlreadyRegisteredMemberException {
         GroupStudyApplyPutDTO dto = new GroupStudyApplyPutDTO(request, applyId);
         GroupStudyApply apply = groupStudyApplyRepository.findById(applyId).orElse(null);
         apply.updateApplyStatus(dto);
         groupStudyApplyRepository.save(apply);
         if (apply.getEStudyApplyStatus() == EStudyApplyStatus.APPROVAL){
             GroupStudyMemberPostDTO memberPostDTO = new GroupStudyMemberPostDTO(apply);
-            groupStudyMemberRepository.save(new GroupStudyMember(memberPostDTO));
+            List<Long> idList = groupStudyMemberRepository.
+                    groupStudyMemberIdList(memberPostDTO.getGroupStudy().getId());
+            if (idList.contains(memberPostDTO.getUserId())){
+                throw new AlreadyRegisteredMemberException();
+            }else{
+                groupStudyMemberRepository.save(new GroupStudyMember(memberPostDTO));
+            }
         }
         return String.valueOf(dto.getEStudyApplyStatus());
     }

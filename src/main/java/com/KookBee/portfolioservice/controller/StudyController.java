@@ -2,6 +2,7 @@ package com.KookBee.portfolioservice.controller;
 
 import com.KookBee.portfolioservice.domain.request.*;
 import com.KookBee.portfolioservice.domain.response.*;
+import com.KookBee.portfolioservice.exception.AlreadyRegisteredMemberException;
 import com.KookBee.portfolioservice.service.GroupStudyService;
 import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
@@ -85,7 +86,7 @@ public class StudyController {
 
     @PutMapping("/apply/{applyId}")
     public String putStudyApply(@PathVariable("applyId") Long applyId,
-                                @RequestBody PortfolioStudyApplyPutRequest request){
+                                @RequestBody PortfolioStudyApplyPutRequest request) throws AlreadyRegisteredMemberException {
         System.out.println(request.getStudyApplyStatus());
         return groupStudyService.putStudyApply(applyId,request);
     }

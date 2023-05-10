@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionConfig {
 
-    @ExceptionHandler(NotFoundUserByEmailException.class)
-    public ResponseEntity<String> notFoundUserByEmailException(NotFoundUserByEmailException e){
+    @ExceptionHandler(AlreadyRegisteredMemberException.class)
+    public ResponseEntity<String> AlreadyRegisteredMemberException(AlreadyRegisteredMemberException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
