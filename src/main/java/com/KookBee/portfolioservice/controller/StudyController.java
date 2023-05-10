@@ -1,10 +1,7 @@
 package com.KookBee.portfolioservice.controller;
 
 import com.KookBee.portfolioservice.domain.request.*;
-import com.KookBee.portfolioservice.domain.response.PortfolioStudyApplyResponse;
-import com.KookBee.portfolioservice.domain.response.PortfolioStudyCheckResponse;
-import com.KookBee.portfolioservice.domain.response.PortfolioStudyPostResponse;
-import com.KookBee.portfolioservice.domain.response.PortfolioStudyResponse;
+import com.KookBee.portfolioservice.domain.response.*;
 import com.KookBee.portfolioservice.service.GroupStudyService;
 import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
@@ -93,6 +90,8 @@ public class StudyController {
         return groupStudyService.putStudyApply(applyId,request);
     }
 
-//    @GetMapping("/my/apply")
-//    public
+    @GetMapping("/apply/requested")
+    public List<PortfolioStudyApplyRequestedResponse> getRequestedApplyList(){
+        return groupStudyService.findRequestedApplyList();
+    }
 }

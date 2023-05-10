@@ -13,4 +13,7 @@ public interface GroupStudyApplyRepository extends JpaRepository<GroupStudyApply
             "where gs.groupStudyLeader = :userId and gs.groupStudyStatus = :status")
     List<GroupStudyApply> findAllByLeaderId(@Param("userId") Long userId,
                                             @Param("status") EStudyStatus status);
+
+    @Query("select gsa from GroupStudyApply gsa where gsa.groupStudyApplicantId = :userId")
+    List<GroupStudyApply> findByApplicantId(@Param("userId") Long userId);
 }

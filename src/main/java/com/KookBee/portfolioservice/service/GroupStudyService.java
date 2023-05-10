@@ -168,7 +168,7 @@ public class GroupStudyService {
             }).toList();
             return responses;
         }catch(Exception e){
-            System.out.print("");
+            System.out.print("토큰이 만료되었습니다.");
             throw new RuntimeException();
         }
     }
@@ -184,5 +184,15 @@ public class GroupStudyService {
             groupStudyMemberRepository.save(new GroupStudyMember(memberPostDTO));
         }
         return String.valueOf(dto.getEStudyApplyStatus());
+    }
+
+    public List<PortfolioStudyApplyRequestedResponse> findRequestedApplyList(){
+        Long userId = jwtService.tokenToDTO(jwtService.getAccessToken()).getId();
+        // 나의 아이디를 가진 신청목록 조회
+        List<GroupStudyApply> applyList = groupStudyApplyRepository.findByApplicantId(userId);
+        List<PortfolioStudyApplyRequestedResponse> responses = applyList.stream().map(el->{
+            return new PortfolioStudyApplyRequestedResponse(el);
+        }).toList();
+        return responses;
     }
 }
