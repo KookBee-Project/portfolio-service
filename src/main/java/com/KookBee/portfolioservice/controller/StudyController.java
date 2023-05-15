@@ -1,10 +1,9 @@
 package com.KookBee.portfolioservice.controller;
 
 import com.KookBee.portfolioservice.domain.request.*;
-import com.KookBee.portfolioservice.domain.response.*;
+import com.KookBee.portfolioservice.domain.response.studyResponse.*;
 import com.KookBee.portfolioservice.exception.AlreadyRegisteredMemberException;
 import com.KookBee.portfolioservice.service.GroupStudyService;
-import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -94,5 +93,10 @@ public class StudyController {
     @GetMapping("/apply/requested")
     public List<PortfolioStudyApplyRequestedResponse> getRequestedApplyList(){
         return groupStudyService.findRequestedApplyList();
+    }
+
+    @GetMapping("/home/list")
+    public List<HomeStudyResponse> getMainStudyList() {
+        return groupStudyService.getMainStudyList();
     }
 }

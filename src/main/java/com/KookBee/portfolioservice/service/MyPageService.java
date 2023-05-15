@@ -1,6 +1,6 @@
 package com.KookBee.portfolioservice.service;
 
-import com.KookBee.portfolioservice.domain.response.MyPageStudyListResponse;
+import com.KookBee.portfolioservice.domain.response.myPageResponse.MyPageStudyListResponse;
 import com.KookBee.portfolioservice.repository.GroupStudyPostRepository;
 import com.KookBee.portfolioservice.security.JwtService;
 import lombok.RequiredArgsConstructor;

@@ -2,9 +2,11 @@ package com.KookBee.portfolioservice.controller;
 
 import com.KookBee.portfolioservice.domain.request.ProjectRequest;
 import com.KookBee.portfolioservice.domain.request.ProjectSubmitRequest;
+import com.KookBee.portfolioservice.domain.response.projectResponse.HomeProjectResponse;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectDetailResponse;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectListResponse;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectResponse;
+import com.KookBee.portfolioservice.domain.response.studyResponse.HomeStudyResponse;
 import com.KookBee.portfolioservice.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +50,14 @@ public class ProjectController {
     @PutMapping("/detail/{projectId}")
     public ProjectResponse updateProject(@PathVariable Long projectId, @RequestBody ProjectRequest request){
         return projectService.updateProject(projectId,request);
+    }
+
+    @GetMapping("/submit/list/{bootcampId}")
+    public List<ProjectListResponse> teacherProjectList(@PathVariable("bootcampId") Long bootcampId){
+        return projectService.teacherProjectList(bootcampId);
+    }
+    @GetMapping("/home/list")
+    public List<HomeProjectResponse> getMainProjectList() {
+        return projectService.getMainProjectList();
     }
 }

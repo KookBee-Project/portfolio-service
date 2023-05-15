@@ -1,6 +1,6 @@
 package com.KookBee.portfolioservice.controller;
 
-import com.KookBee.portfolioservice.domain.response.MyPageStudyListResponse;
+import com.KookBee.portfolioservice.domain.response.myPageResponse.MyPageStudyListResponse;
 import com.KookBee.portfolioservice.service.MyPageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

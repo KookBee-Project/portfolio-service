@@ -31,4 +31,6 @@ public interface GroupStudyRepository extends JpaRepository<GroupStudy,Long> {
     Page<GroupStudy> findMyGroupStudies(@Param("eStudyStatus") EStudyStatus eStudyStatus,
                                         @Param("userId") Long userId,
                                         Pageable pageable);
+
+    List<GroupStudy> findTop5ByGroupStudyStatusOrderByIdDesc(EStudyStatus proceeding);
 }
