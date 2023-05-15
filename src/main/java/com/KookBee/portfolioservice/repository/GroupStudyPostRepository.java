@@ -13,4 +13,8 @@ public interface GroupStudyPostRepository extends JpaRepository<GroupStudyPost, 
 
     @Query("select gsp from GroupStudyPost gsp where gsp.groupStudyLecture.id = :lectureId")
     List<GroupStudyPost> findAllByLectureId(@Param("lectureId") Long lectureId);
+
+    @Query("select gsp from GroupStudyPost gsp where gsp.groupStudyPostWriter = :userId " +
+            "order by gsp.id desc")
+    List<GroupStudyPost> findAllByWriterId(@Param("userId") Long userId);
 }
