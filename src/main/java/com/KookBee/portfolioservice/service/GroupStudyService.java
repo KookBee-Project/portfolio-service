@@ -84,7 +84,7 @@ public class GroupStudyService {
             Integer memberCounts = el.getGroupStudyMembers().size();
             return new PortfolioStudyResponse(el, userById, memberCounts);// GroupStudy
         }).toList();
-        Integer totalSize = groupStudyRepository.groupStudyCounts(status);
+        Integer totalSize = groupStudyRepository.myGroupStudyCounts(status, userId);
         return new PageImpl<>(responsList,pageable,totalSize);
     }
 
