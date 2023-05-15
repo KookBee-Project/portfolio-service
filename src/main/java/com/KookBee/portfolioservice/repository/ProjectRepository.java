@@ -14,4 +14,8 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     List<Project> findAllByBootcampId(Long id);
     List<Project> findAllByBootcampIdAndProjectStatusNot(Long id , EAllStatus status);
     Optional<Project> findByProjectCode(String projectCode);
+
+    List<Project> findTop5ByProjectStatusOrderByIdDesc(EAllStatus finished);
+
+    List<Project> findByBootcampIdAndProjectStatus(Long bootcampId, EAllStatus finished);
 }

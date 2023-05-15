@@ -35,4 +35,17 @@ public class ProjectListResponse {
         this.bootcampId = project.getBootcampId();
         this.countUsers = count;
     }
+
+    public ProjectListResponse(Project project) {
+        this.id = project.getId();
+        if(project.getProjectTitle().length() >= 10) this.projectTitle = project.getProjectTitle().substring(0, 9) + "...";
+        else this.projectTitle = project.getProjectTitle();
+        this.projectTeamName = project.getProjectTeamName();
+        this.projectLeaderName = project.getProjectLeaderName();
+        this.projectSubject = project.getProjectSubject();
+        this.createAt = project.getCreateAt();
+        this.projectStatus = project.getProjectStatus();
+        this.bootcampId = project.getBootcampId();
+        this.countUsers = (long) project.getProjectUserList().size();
+    }
 }

@@ -6,7 +6,7 @@ import com.KookBee.portfolioservice.domain.entity.*;
 import com.KookBee.portfolioservice.domain.enums.EStudyApplyStatus;
 import com.KookBee.portfolioservice.domain.enums.EStudyStatus;
 import com.KookBee.portfolioservice.domain.request.*;
-import com.KookBee.portfolioservice.domain.response.*;
+import com.KookBee.portfolioservice.domain.response.studyResponse.*;
 import com.KookBee.portfolioservice.exception.AlreadyRegisteredMemberException;
 import com.KookBee.portfolioservice.repository.*;
 import com.KookBee.portfolioservice.security.JwtService;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -201,5 +200,10 @@ public class GroupStudyService {
             return new PortfolioStudyApplyRequestedResponse(el);
         }).toList();
         return responses;
+    }
+
+    public List<HomeStudyResponse> getMainStudyList() {
+        List<GroupStudy> groupStudies = groupStudyRepository.findTop5ByGroupStudyStatusOrderByIdDesc(EStudyStatus.PROCEEDING);
+        return groupStudies.stream().map(HomeStudyResponse::new).toList();
     }
 }

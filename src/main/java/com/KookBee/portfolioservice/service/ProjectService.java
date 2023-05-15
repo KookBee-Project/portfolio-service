@@ -6,6 +6,7 @@ import com.KookBee.portfolioservice.domain.entity.ProjectUser;
 import com.KookBee.portfolioservice.domain.enums.EAllStatus;
 import com.KookBee.portfolioservice.domain.request.ProjectRequest;
 import com.KookBee.portfolioservice.domain.request.ProjectSubmitRequest;
+import com.KookBee.portfolioservice.domain.response.projectResponse.HomeProjectResponse;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectDetailResponse;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectListResponse;
 import com.KookBee.portfolioservice.domain.response.projectResponse.ProjectResponse;
@@ -87,5 +88,15 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).orElseThrow(NullPointerException::new);
         projectRepository.save(project.finishedProject(request, EAllStatus.FINISHED));
         return new ProjectResponse(project);
+    }
+
+    public List<HomeProjectResponse> getMainProjectList() {
+        List<Project> projects = projectRepository.findTop5ByProjectStatusOrderByIdDesc(EAllStatus.FINISHED);
+        return projects.stream().map(HomeProjectResponse::new).toList();
+    }
+
+    public List<ProjectListResponse> teacherProjectList(Long bootcampId) {
+        List<Project> projects = projectRepository.findByBootcampIdAndProjectStatus(bootcampId, EAllStatus.FINISHED);
+        return projects.stream().map(ProjectListResponse::new).toList();
     }
 }
