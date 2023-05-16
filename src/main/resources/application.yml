@@ -16,9 +16,13 @@ spring:
         format_sql: true
         default_batch_fetch_size: 100
   data:
-    redis:
-      host: 34.64.173.178
-      port: 6379
+    mongodb:
+      host: 35.205.7.177
+      port: 27017
+      database: note
+      username: "bee"
+      password: "q1w2e3r4!"
+      authentication-database: admin
   application:
     name: portfolio-service
 
@@ -27,6 +31,9 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
+
       defaultZone: http://34.64.69.238:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    preferIpAddress: true
+    ip-address: 34.118.154.173
