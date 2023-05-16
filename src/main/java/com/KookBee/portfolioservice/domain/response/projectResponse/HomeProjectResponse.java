@@ -20,7 +20,7 @@ public class HomeProjectResponse {
     public HomeProjectResponse(Project project) {
         this.projectId = project.getId();
         if(project.getProjectTitle().length() <= 10) this.projectName = project.getProjectTitle();
-        else this.projectName = project.getProjectTitle().substring(0, 9);
+        else this.projectName = project.getProjectTitle().substring(0, 9) + "...";
         this.projectTeamName = project.getProjectTeamName();
         this.projectMemberCount = project.getProjectUserList().size();
         this.projectSubject = project.getProjectSubject().substring(0,2);

@@ -19,7 +19,7 @@ public class HomeStudyResponse {
     public HomeStudyResponse(GroupStudy groupStudy) {
         this.groupStudyId = groupStudy.getId();
         if(groupStudy.getGroupStudyName().length() <= 10) this.groupStudyName = groupStudy.getGroupStudyName();
-        else this.groupStudyName = groupStudy.getGroupStudyName().substring(0,9);
+        else this.groupStudyName = groupStudy.getGroupStudyName().substring(0,9) + "...";
         this.currentGroupStudyLectureIteration = groupStudy.getGroupStudyLectureList().size() + 1;
         this.groupStudyMemberCount = groupStudy.getGroupStudyMembers().size();
     }
